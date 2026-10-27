@@ -16,7 +16,7 @@ using Matrix = Eigen::MatrixXd;
 using Clock = std::chrono::steady_clock;
 namespace fs = std::filesystem;
 
-Matrix multiply(const Matrix& A, const Matrix& B, Matrix& C);
+void multiply(const Matrix& A, const Matrix& B, Matrix& C);
 
 struct TestCase {
     Matrix A;
@@ -155,7 +155,7 @@ bool matrices_equal(const Matrix& actual,const Matrix& expected) {
 
 TestResult benchmark_test( const TestCase& test,int test_number) {
     int n = test.A.rows(); 
-    // Eigen::setNbThreads(n >= 768 ? 8 : (n >= 384 ? 4 : 1)); 
+    Eigen::setNbThreads(n >= 768 ? 8 : (n >= 384 ? 4 : 1)); 
     double consume = 0.0;
     for (int i = 0; i < WARMUPS; ++i) {
        Matrix result;

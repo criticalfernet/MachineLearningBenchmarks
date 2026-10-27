@@ -119,17 +119,17 @@ def benchmark(dataset):
   print(f"Test cases in dataset: {len(tests)}")
 
   for idx, (A, B, C) in enumerate(tests, start=1):
-    # with threadpool_limits(limits=threads_for(n), user_api="blas"):
-    for _ in range(WARMUPS):
-      multiply(A,B)
+    with threadpool_limits(limits=threads_for(n), user_api="blas"):
+      for _ in range(WARMUPS):
+        multiply(A,B)
 
-    samples = []
+      samples = []
 
-    for _ in range(REPETITIONS):
-      start = time.perf_counter()
-      result = multiply(A,B)
-      end = time.perf_counter()
-      samples.append(end-start)
+      for _ in range(REPETITIONS):
+        start = time.perf_counter()
+        result = multiply(A,B)
+        end = time.perf_counter()
+        samples.append(end-start)
 
     if not np.allclose(result, C, rtol=1e-10, atol=1e-10):
       raise ValueError(f"Test {idx}: correctness check failed")
