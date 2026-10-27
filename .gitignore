@@ -1,0 +1,8 @@
+build/
+eigen-5.0.0/
+.vscode/
+USER.md
+**/__pycache__/
+__pycache__/
+*.py[cod]
+datasets/*
