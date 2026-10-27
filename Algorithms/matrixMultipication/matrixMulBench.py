@@ -2,6 +2,7 @@ import numpy as np
 from pathlib import Path
 import csv
 import time
+from threadpoolctl import threadpool_limits
 
 from matrixMul import multiply
 
@@ -9,8 +10,13 @@ ROOT = Path(__file__).resolve().parents[2]
 DATASET_DIR = ROOT / "datasets" / "matrixMultiplication"
 RESULT_FILE = ROOT / "results" / "matrixMultiplication_python.csv"
 
-WARMUPS = 3
-REPETITIONS = 10
+WARMUPS = 10
+REPETITIONS = 20
+
+def threads_for(n):
+  return 8 if n >= 768 else (4 if n >= 384 else 1)
+
+
 
 def load_test(filePath, MATRIX_SIZE):
   line = filePath.readline()
@@ -113,6 +119,7 @@ def benchmark(dataset):
   print(f"Test cases in dataset: {len(tests)}")
 
   for idx, (A, B, C) in enumerate(tests, start=1):
+    # with threadpool_limits(limits=threads_for(n), user_api="blas"):
     for _ in range(WARMUPS):
       multiply(A,B)
 

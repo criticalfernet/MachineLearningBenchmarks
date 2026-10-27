@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -O3 -DNDEBUG -march=native -std=c++23 -I./eigen-5.0.0
+CXXFLAGS = -O3 -DNDEBUG -march=native -fopenmp -std=c++23 -I./eigen-5.0.0
 
 SRCS = $(wildcard Algorithms/*/main.cpp)
 BENCH_SRCS = $(wildcard Algorithms/*/bench.cpp)

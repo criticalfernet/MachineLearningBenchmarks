@@ -2,6 +2,6 @@
 
 using Matrix = Eigen::MatrixXd;
 
-Matrix multiply(const Matrix& A, const Matrix& B) {
-    return A * B;
+Matrix multiply(const Matrix& A, const Matrix& B, Matrix& C) {
+    C.noalias() = A * B;
 }

@@ -16,7 +16,7 @@ using Matrix = Eigen::MatrixXd;
 using Clock = std::chrono::steady_clock;
 namespace fs = std::filesystem;
 
-Matrix multiply(const Matrix& A, const Matrix& B);
+Matrix multiply(const Matrix& A, const Matrix& B, Matrix& C);
 
 struct TestCase {
     Matrix A;
@@ -34,8 +34,8 @@ struct TestResult {
     Statistics stats;
 };
 
-constexpr int WARMUPS = 3;
-constexpr int REPETITIONS = 10;
+constexpr int WARMUPS = 10;
+constexpr int REPETITIONS = 20;
 constexpr double RTOL = 1e-10;
 constexpr double ATOL = 1e-10;
 
@@ -154,9 +154,12 @@ bool matrices_equal(const Matrix& actual,const Matrix& expected) {
 }
 
 TestResult benchmark_test( const TestCase& test,int test_number) {
+    int n = test.A.rows(); 
+    // Eigen::setNbThreads(n >= 768 ? 8 : (n >= 384 ? 4 : 1)); 
     double consume = 0.0;
     for (int i = 0; i < WARMUPS; ++i) {
-       Matrix result = multiply(test.A, test.B);
+       Matrix result;
+       multiply(test.A, test.B, result);
        consume += result(0, 0);
     }
 
@@ -164,9 +167,12 @@ TestResult benchmark_test( const TestCase& test,int test_number) {
     samples_ms.reserve(REPETITIONS);
 
     for (int i = 0; i < REPETITIONS; ++i) {
+        double consume = 0.0;
+        Matrix result;
         const auto start = Clock::now();
-        Matrix result =  multiply(test.A, test.B);
+        multiply(test.A, test.B, result);
         const auto end = Clock::now();
+        consume += result(0, 0);
 
         const double elapsed_ms =
             std::chrono::duration<double, std::milli>(end - start).count();
