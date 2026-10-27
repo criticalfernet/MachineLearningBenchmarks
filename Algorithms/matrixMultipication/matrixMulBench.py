@@ -13,9 +13,10 @@ RESULT_FILE = ROOT / "results" / "matrixMultiplication_python.csv"
 WARMUPS = 10
 REPETITIONS = 20
 
-def threads_for(n):
-  return 8 if n >= 768 else (4 if n >= 384 else 1)
+NEED_HEADER = True
 
+def threads_for(n):
+  return 8 if n >= 768 else (4 if n >= 384 else 2)
 
 
 def load_test(filePath, MATRIX_SIZE):
@@ -59,21 +60,26 @@ def load_dataset(path):
 
 
 
+
+
 def save_results(test_results, summary, MATRIX_SIZE):
+    global NEED_HEADER
     with RESULT_FILE.open("a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow([
-            "implementation",
-            "algorithm",
-            "matrix_size",
-            "test_case",
-            "median_latency_ms",
-            "mean_latency_ms",
-            "min_latency_ms",
-            "max_latency_ms",
-            "warmup_runs",
-            "repetitions",
-        ])
+        if NEED_HEADER == True:
+          writer.writerow([
+              "implementation",
+              "algorithm",
+              "matrix_size",
+              "test_case",
+              "median_latency_ms",
+              "mean_latency_ms",
+              "min_latency_ms",
+              "max_latency_ms",
+              "warmup_runs",
+              "repetitions",
+          ])
+          NEED_HEADER = False
 
         for row in test_results:
             writer.writerow([
