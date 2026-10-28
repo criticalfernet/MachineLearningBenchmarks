@@ -1,0 +1,2 @@
+implementation,algorithm,matrix_size,test_case,median_latency_ms,mean_latency_ms,min_latency_ms,max_latency_ms,warmup_runs,repetitions
+C++,Linear Regression,1000x512,SUMMARY,11.159745,12.201038,8.146994,22.711664,3,10

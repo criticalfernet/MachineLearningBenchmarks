@@ -17,18 +17,17 @@ Evaluates the latency, throughput, scalability, memory efficiency, and numerical
 
 | # | Algorithm | Python baseline | C++ implementation |
 |---|---|---|---|
-| 1 | Linear Regression | scikit-learn | Eigen |
-| 2 | Logistic Regression | scikit-learn | Eigen |
-| 3 | Naive Bayes | scikit-learn | Eigen |
-| 4 | Ridge Regression | scikit-learn | Eigen |
-| 5 | Elastic Net Regression | scikit-learn | Eigen |
-| 6 | K-Nearest Neighbors (KNN) | scikit-learn | Eigen |
-| 7 | K-means | scikit-learn | Eigen |
-| 8 | Hierarchical Agglomerative Clustering | scikit-learn | Eigen |
-| 9 | DBSCAN | scikit-learn | Eigen |
-| 10 | CART Decision Tree | scikit-learn | Custom C++ |
-| 11 | Random Forest | scikit-learn | Custom C++ |
-| 12 | Gradient Boosted Trees | XGBoost | Custom C++ |
+| 1 | Logistic Regression | scikit-learn | Eigen |
+| 2 | Naive Bayes | scikit-learn | Eigen |
+| 3 | Ridge Regression | scikit-learn | Eigen |
+| 4 | Elastic Net Regression | scikit-learn | Eigen |
+| 5 | K-Nearest Neighbors (KNN) | scikit-learn | Eigen |
+| 6 | K-means | scikit-learn | Eigen |
+| 7 | Hierarchical Agglomerative Clustering | scikit-learn | Eigen |
+| 8 | DBSCAN | scikit-learn | Eigen |
+| 9 | CART Decision Tree | scikit-learn | Custom C++ |
+| 10 | Random Forest | scikit-learn | Custom C++ |
+| 11 | Gradient Boosted Trees | XGBoost | Custom C++ |
 
 
 ## Module C: Quantitative finance

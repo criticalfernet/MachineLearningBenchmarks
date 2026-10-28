@@ -1,0 +1,2 @@
+implementation,algorithm,matrix_size,test_case,median_latency_ms,mean_latency_ms,min_latency_ms,max_latency_ms,warmup_runs,repetitions
+Python,Matrix Multiplication,1000x512,SUMMARY,5.843300,5.773940,5.242200,6.558600,3,10
