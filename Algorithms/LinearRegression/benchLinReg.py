@@ -4,6 +4,8 @@ from pathlib import Path
 import time
 import csv
 
+from threadpoolctl import threadpool_limits
+
 ROOT = Path(__file__).resolve().parents[2]
 DATASET_FILE = ROOT / "datasets" / "LinearRegression" / "train.csv"
 RESULT_FILE = ROOT / "results" / "LinearRegression_python.csv"
@@ -31,7 +33,7 @@ def save_results(summary, SIZE):
       ])
       writer.writerow([
         "Python",
-        "Matrix Multiplication",
+        "Linear Regression",
         f"{SIZE['x']}x{SIZE['y']}",
         "SUMMARY",
         f'{summary["median_ms"]:.6f}',
@@ -49,14 +51,15 @@ def benchmark(dataset):
     print(f"Dataset shape: X={X.shape}, Y={Y.shape}")
     timings = []
 
-    for _ in range(WARMUPS):
-        linear_regression(X, Y)
+    with threadpool_limits(limits=8, user_api="blas"):
+      for _ in range(WARMUPS):
+          linear_regression(X, Y)
 
-    for _ in range(REPETITIONS):
-        start = time.perf_counter()
-        linear_regression(X, Y)
-        end = time.perf_counter()
-        timings.append(end - start)
+      for _ in range(REPETITIONS):
+          start = time.perf_counter()
+          linear_regression(X, Y)
+          end = time.perf_counter()
+          timings.append(end - start)
 
     timings = np.array(timings)
 

@@ -20,7 +20,7 @@ constexpr int WARMUPS = 3;
 constexpr int REPETITIONS = 10;
 constexpr int FEATURES = 512;
 
-Vector linear_regression(const Matrix& X, const Vector& y);
+void linear_regression(const Matrix& X, const Vector& y, Vector& C);
 
 const std::filesystem::path DATASET_FILE = "datasets/LinearRegression/train.csv";
 const std::filesystem::path RESULT_FILE = "results/LinearRegression_cpp.csv";
@@ -112,18 +112,20 @@ int main() {
         std::println("Dataset shape: X=({}, {}), Y=({})",X.rows(), X.cols(), y.size());
 
         double consume = 0.0;
+        Eigen::setNbThreads(8);
         for (int i = 0; i < WARMUPS; ++i) {
-            const Vector beta = linear_regression(X, y);
+            Vector beta;
+            linear_regression(X, y, beta);
             consume += beta(0,0);
         }
 
         std::vector<double> timings_ms;
         timings_ms.reserve(REPETITIONS);
-
+        
         for (int i = 0; i < REPETITIONS; ++i) {
-            double consume = 0.0;
+            Vector beta;
             const auto start = Clock::now();
-            const Vector beta = linear_regression(X, y);
+            linear_regression(X, y, beta);
             const auto end = Clock::now();
             consume += beta(0,0);
 
